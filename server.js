@@ -38,13 +38,13 @@ app.use(helmet({
         directives: {
             defaultSrc: ["'self'"],
             styleSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://cdn.socket.io"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://cdn.socket.io", "https://vercel.live", "https://*.vercel.app"],
             imgSrc: ["'self'", "data:", "https:", "http:"],
-            connectSrc: ["'self'", "ws:", "wss:"],
+            connectSrc: ["'self'", "ws:", "wss:", "https://vercel.live", "https://*.vercel.app"],
             fontSrc: ["'self'", "https:", "data:"],
             objectSrc: ["'none'"],
             mediaSrc: ["'self'"],
-            frameSrc: ["'none'"],
+            frameSrc: ["'self'", "https://vercel.live", "https://*.vercel.app"],
         },
     },
     crossOriginEmbedderPolicy: false
