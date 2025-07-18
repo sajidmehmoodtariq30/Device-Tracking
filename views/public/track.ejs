@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/public.css">
+</head>
+<body>
+    <div class="public-container">
+        <div class="public-header">
+            <h1><%= session.title %></h1>
+            <% if (session.description) { %>
+                <p class="session-description"><%= session.description %></p>
+            <% } %>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-card">
+                <h3>📍 Location Tracking Notice</h3>
+                <p>This page will track your location for educational and demonstration purposes.</p>
+                <ul>
+                    <li>Your location will be recorded every <%= Math.round(session.settings.trackingInterval / 1000) %> seconds</li>
+                    <li>Data includes GPS coordinates, accuracy, and basic device information</li>
+                    <li>All data is stored temporarily and used for educational purposes only</li>
+                    <li>You can stop tracking at any time by closing this page</li>
+                </ul>
+            </div>
+        </div>
+        
+        <% if (session.settings.requireConsent) { %>
+            <div id="consentSection" class="consent-section">
+                <div class="consent-card">
+                    <h3>Your Consent Required</h3>
+                    <p>Before we can track your location, we need your explicit consent.</p>
+                    
+                    <div class="consent-details">
+                        <h4>What we collect:</h4>
+                        <ul>
+                            <li>GPS coordinates (latitude, longitude)</li>
+                            <li>Location accuracy information</li>
+                            <li>Timestamp of each location update</li>
+                            <li>Basic device information (browser, screen size, etc.)</li>
+                            <li>IP address for security purposes</li>
+                        </ul>
+                        
+                        <h4>How we use it:</h4>
+                        <ul>
+                            <li>For educational demonstration purposes only</li>
+                            <li>To show real-time location tracking capabilities</li>
+                            <li>Data is automatically deleted after session expires</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="consent-actions">
+                        <button id="giveConsent" class="btn btn-primary">I Consent to Location Tracking</button>
+                        <button id="denyConsent" class="btn btn-secondary">I Do Not Consent</button>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        
+        <div id="trackingSection" class="tracking-section" style="display: none;">
+            <div class="tracking-status">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span id="statusText">Initializing...</span>
+                </div>
+                <div class="tracking-info">
+                    <div class="info-item">
+                        <span class="label">Updates:</span>
+                        <span id="updateCount">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Accuracy:</span>
+                        <span id="accuracy">Unknown</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Last Update:</span>
+                        <span id="lastUpdate">Never</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="location-display">
+                <h3>Current Location</h3>
+                <div class="coordinates">
+                    <span class="coordinate">
+                        <strong>Latitude:</strong> <span id="latitude">-</span>
+                    </span>
+                    <span class="coordinate">
+                        <strong>Longitude:</strong> <span id="longitude">-</span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <button id="stopTracking" class="btn btn-danger">Stop Tracking</button>
+                <button id="shareLocation" class="btn btn-info">Share Current Location</button>
+            </div>
+        </div>
+        
+        <div class="privacy-links">
+            <a href="/about" target="_blank">About This Tool</a>
+            <a href="/privacy" target="_blank">Privacy Policy</a>
+        </div>
+    </div>
+    
+    <script>
+        // Pass session data to JavaScript
+        window.trackingSession = {
+            id: '<%= session.id %>',
+            title: '<%= session.title %>',
+            settings: {
+                requireConsent: <%= session.settings.requireConsent %>,
+                trackingInterval: <%= session.settings.trackingInterval %>,
+                showLocationAccuracy: <%= session.settings.showLocationAccuracy %>,
+                collectDeviceInfo: <%= session.settings.collectDeviceInfo %>
+            }
+        };
+    </script>
+    <script src="/public/js/public-tracking.js"></script>
+</body>
+</html>

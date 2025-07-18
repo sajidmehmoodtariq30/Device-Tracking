@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body>
+    <%- include('partials/nav') %>
+    
+    <main class="dashboard-main">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Welcome back, <%= user.username %>!</h1>
+                <div class="dashboard-actions">
+                    <a href="/admin/sessions" class="btn btn-primary">Manage Tracking Sessions</a>
+                    <div class="user-info">
+                        <span class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span>Online</span>
+                        </span>
+                        <span class="last-seen">
+                            Last seen: <%= new Date(user.deviceInfo.lastSeen).toLocaleString() %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracking-section">
+                <div class="tracking-header">
+                    <h2>Active Tracking Sessions</h2>
+                    <div class="tracking-controls">
+                        <button id="refreshData" class="btn btn-primary">Refresh Data</button>
+                        <button id="centerMap" class="btn btn-info">Center Map</button>
+                    </div>
+                </div>
+                
+                <div class="tracking-status">
+                    <div class="status-item">
+                        <span class="status-label">Active Sessions:</span>
+                        <span id="activeSessionCount" class="status-value">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Total Tracked Users:</span>
+                        <span id="trackedUserCount" class="status-value">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Last Update:</span>
+                        <span id="lastUpdate" class="status-value">Never</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+            
+            <div class="tracking-sessions-section">
+                <h3>Recent Tracking Activity</h3>
+                <div id="sessionsActivity" class="sessions-activity">
+                    <!-- Sessions activity will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <%- include('partials/footer') %>
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+        integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+        crossorigin="anonymous"></script>
+    <script>
+        // Pass server data to client
+        window.currentUser = {
+            id: '<%= user._id %>',
+            username: '<%= user.username %>',
+            lastLocation: null
+        };
+    </script>
+    <script src="/public/js/admin-dashboard.js"></script>
+</body>
+
+</html>

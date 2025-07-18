@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Device Tracking</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1><%= title %></h1>
+                <p><%= message %></p>
+            </div>
+            
+            <% if (error && error.stack) { %>
+                <div class="alert alert-error">
+                    <pre><%= error.stack %></pre>
+                </div>
+            <% } %>
+            
+            <div class="auth-footer">
+                <p><a href="/">Go back to home</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

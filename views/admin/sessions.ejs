@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Tracking Sessions - Device Tracking</title>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    
+    <main class="dashboard-main">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Tracking Sessions</h1>
+                <button id="createSessionBtn" class="btn btn-primary">Create New Session</button>
+            </div>
+            
+            <% if (typeof success !== 'undefined' && success) { %>
+                <div class="alert alert-success">
+                    <%= success %>
+                </div>
+            <% } %>
+            
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <div class="sessions-grid">
+                <% if (sessions.length === 0) { %>
+                    <div class="empty-state">
+                        <h3>No tracking sessions yet</h3>
+                        <p>Create your first tracking session to start monitoring locations.</p>
+                    </div>
+                <% } else { %>
+                    <% sessions.forEach(session => { %>
+                        <div class="session-card" data-session-id="<%= session.sessionId %>">
+                            <div class="session-header">
+                                <h3><%= session.title %></h3>
+                                <div class="session-status">
+                                    <span class="status-indicator <%= session.isActive ? 'active' : 'inactive' %>">
+                                        <%= session.isActive ? 'Active' : 'Inactive' %>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="session-info">
+                                <p class="session-description"><%= session.description || 'No description provided' %></p>
+                                <div class="session-stats">
+                                    <span class="stat">
+                                        <strong>Access Count:</strong> <%= session.accessCount %>
+                                    </span>
+                                    <span class="stat">
+                                        <strong>Location Points:</strong> <%= session.locationData.length %>
+                                    </span>
+                                </div>
+                                <div class="session-dates">
+                                    <span class="date">
+                                        <strong>Created:</strong> <%= new Date(session.createdAt).toLocaleDateString() %>
+                                    </span>
+                                    <span class="date">
+                                        <strong>Expires:</strong> <%= new Date(session.expiresAt).toLocaleDateString() %>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="session-url">
+                                <label>Tracking URL:</label>
+                                <div class="url-container">
+                                    <input type="text" class="tracking-url" value="<%= baseUrl %>/track/<%= session.sessionId %>" readonly>
+                                    <button class="btn btn-sm btn-secondary copy-url">Copy</button>
+                                </div>
+                            </div>
+                            
+                            <div class="session-actions">
+                                <button class="btn btn-sm btn-info view-data" data-session-id="<%= session.sessionId %>">
+                                    View Data
+                                </button>
+                                <button class="btn btn-sm <%= session.isActive ? 'btn-warning' : 'btn-success' %> toggle-status" 
+                                        data-session-id="<%= session.sessionId %>">
+                                    <%= session.isActive ? 'Deactivate' : 'Activate' %>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-session" data-session-id="<%= session.sessionId %>">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Create Session Modal -->
+    <div id="createSessionModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Tracking Session</h2>
+            <form id="createSessionForm" action="/admin/sessions" method="POST">
+                <div class="form-group">
+                    <label for="title">Session Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description (Optional)</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trackingInterval">Tracking Interval (seconds)</label>
+                    <select id="trackingInterval" name="trackingInterval">
+                        <option value="10000">10 seconds</option>
+                        <option value="30000" selected>30 seconds</option>
+                        <option value="60000">1 minute</option>
+                        <option value="300000">5 minutes</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="requireConsent" checked>
+                        Require user consent
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Session</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Data View Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close">&times;</span>
+            <h2>Session Data</h2>
+            <div id="dataContent">
+                <!-- Data will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <%- include('../partials/footer') %>
+    
+    <script src="/public/js/admin-sessions.js"></script>
+</body>
+</html>
