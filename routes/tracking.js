@@ -8,7 +8,15 @@ const router = express.Router();
 // Dashboard (main tracking page)
 router.get('/dashboard', requireAuth, async (req, res) => {
     try {
+        console.log('Dashboard access attempt, session userId:', req.session.userId);
         const user = await User.findById(req.session.userId);
+        console.log('User found for dashboard:', !!user);
+        
+        if (!user) {
+            console.log('User not found, redirecting to login');
+            return res.redirect('/login');
+        }
+        
         res.render('dashboard', { 
             title: 'Dashboard',
             user: user,

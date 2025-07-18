@@ -67,16 +67,21 @@ router.get('/login', redirectIfAuth, (req, res) => {
 // Login handler
 router.post('/login', validateLogin, async (req, res) => {
     try {
+        console.log('Login attempt for:', req.body.email);
         const { email, password } = req.body;
         
         // Find user
         const user = await User.findOne({ email });
+        console.log('User found:', !!user);
         
         if (!user || !(await user.comparePassword(password))) {
+            console.log('Invalid credentials');
             req.session.error = 'Invalid email or password';
             return res.redirect('/login');
         }
 
+        console.log('Login successful for user:', user.username);
+        
         // Update last seen
         await user.updateLastSeen();
 
@@ -88,6 +93,7 @@ router.post('/login', validateLogin, async (req, res) => {
             email: user.email
         };
 
+        console.log('Session set, redirecting to dashboard');
         res.redirect('/dashboard');
     } catch (error) {
         console.error('Login error:', error);
@@ -97,6 +103,15 @@ router.post('/login', validateLogin, async (req, res) => {
 });
 
 // Logout
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Logout error:', err);
+        }
+        res.redirect('/login');
+    });
+});
+
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {

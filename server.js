@@ -50,7 +50,12 @@ app.use(helmet({
     crossOriginEmbedderPolicy: false
 }));
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.NODE_ENV === 'production' 
+        ? [process.env.BASE_URL, 'https://device-tracking-six.vercel.app']
+        : true,
+    credentials: true
+}));
 
 // Body parsing middleware
 app.use(express.json());
@@ -81,7 +86,7 @@ app.use(session({
         touchAfter: 24 * 3600 // lazy session update
     }),
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // HTTPS in production
+        secure: false, // Set to false for now to ensure it works on both localhost and Vercel
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
     }
