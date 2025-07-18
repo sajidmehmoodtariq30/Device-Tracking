@@ -1,0 +1,36 @@
+{
+  "name": "device-tracking",
+  "version": "1.0.0",
+  "description": "An app that tracks location and shows it in realtime",
+  "keywords": [
+    "nodejs",
+    "express",
+    "socketio",
+    "maps",
+    "leaflet"
+  ],
+  "homepage": "https://github.com/sajidmehmoodtariq30/Device-Tracking#readme",
+  "bugs": {
+    "url": "https://github.com/sajidmehmoodtariq30/Device-Tracking/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sajidmehmoodtariq30/Device-Tracking.git"
+  },
+  "license": "ISC",
+  "author": "Sajid Mehmood Tariq",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
