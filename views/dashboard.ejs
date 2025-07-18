@@ -2,11 +2,27 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Device Tracking</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 
 <body>
-    <%- include('partials/nav') %>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Device Tracker</h2>
+            </div>
+            <div class="nav-links">
+                <a href="/dashboard" class="nav-link active">Dashboard</a>
+                <a href="/admin/sessions" class="nav-link">Sessions</a>
+                <a href="/logout" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
     
     <main class="dashboard-main">
         <div class="container">
@@ -63,8 +79,6 @@
             </div>
         </div>
     </main>
-    
-    <%- include('partials/footer') %>
     
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

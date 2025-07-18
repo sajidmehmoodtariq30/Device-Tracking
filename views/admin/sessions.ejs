@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracking Sessions - Device Tracking</title>
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
-    <%- include('../partials/nav') %>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Device Tracker</h2>
+            </div>
+            <div class="nav-links">
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="/admin/sessions" class="nav-link active">Sessions</a>
+                <a href="/logout" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
     
     <main class="dashboard-main">
         <div class="container">
@@ -142,8 +155,6 @@
             </div>
         </div>
     </div>
-    
-    <%- include('../partials/footer') %>
     
     <script src="/public/js/admin-sessions.js"></script>
 </body>
